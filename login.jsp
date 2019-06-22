@@ -1,3 +1,38 @@
+ <%@ page language="java" import="java.util.*,java.sql.*"
+contentType="text/html; charset=utf-8"%>
+<%
+    request.setCharacterEncoding("utf-8");
+    String msg = "";
+    //连接Mysql数据库
+    if (request.getMethod().equalsIgnoreCase("post")){
+      try{
+        String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045"
+                            + "?autoReconnect=true&useUnicode=true"
+                            + "&characterEncoding=UTF-8"; 
+        String login_username = request.getParameter("login_username");
+        String password = request.getParameter("password");
+        Connection con=DriverManager.getConnection(connectString, 
+                            "user", "123");
+        Statement stmt=con.createStatement();
+        String CHECK_USER_EXIST_SQL = String.format("select * from user where user_name='%s' and password='%s'",login_username,password); 
+       
+        ResultSet rs = stmt.executeQuery(CHECK_USER_EXIST_SQL);
+       
+        if(rs.next()){
+          msg = "登录成功~";
+        }else {
+          msg = "用户名或者密码错误~";
+        }
+        
+        rs.close();
+        stmt.close();
+        con.close();
+      }catch(Exception e){
+        msg = e.getMessage();
+      }
+    }
+    %> 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +70,7 @@
                     </div>
                     <div class="login-main">
                         <form id="login-form" class="form-vertical" method="post"
-                                action="login.jsp" data-parsley-validate="">
+                                action="login_16337045.jsp" data-parsley-validate="">
                             <div class="form-text mbl">
                                 <label class="control-label" for="login_username">用户名    </label>
                                 <input class="form-control input-lg" id="login_username" type="text" name="login_username"
@@ -56,11 +91,13 @@
                         </form>
         
                         <div class="last">
-                            <a href="reset.html">忘记密码</a>
-                            <span class="text-muted mhs">|</span>
+                            <%-- <a href="reset.html">忘记密码</a> --%>
+                            <%-- <span class="text-muted mhs">|</span> --%>
                             <span class="text-muted">没有账户</span>
                             <a href="register.html">注册</a>
                         </div>
+                        <br><br><br>
+                        <%=msg%>
                     </div>
                 </div>
             </div>
