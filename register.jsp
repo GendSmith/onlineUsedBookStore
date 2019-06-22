@@ -14,6 +14,8 @@ contentType="text/html; charset=utf-8"%>
         String submit = request.getParameter("sign_in");
         String register_username = request.getParameter("register_username");
         String password = request.getParameter("password");
+        String contact = request.getParameter("contact");
+        String user_type = request.getParameter("user_type");
         Connection con=DriverManager.getConnection(connectString, 
                             "user", "123");
         Statement stmt=con.createStatement();
@@ -24,7 +26,7 @@ contentType="text/html; charset=utf-8"%>
         out.print(register_username);
         if(!rs.next()){
           out.print("hhh");
-          String INSERT_USER_SQL = String.format("insert into user (user_name,password,user_type) values('%s','%s','normal_user')",register_username,password);
+          String INSERT_USER_SQL = String.format("insert into user (user_name,password,user_type,contact) values('%s','%s','%s','%s')",register_username,password,user_type,contact);
           int insert_result = stmt.executeUpdate(INSERT_USER_SQL);
           if(insert_result>0){
             msg = "注册成功~";
@@ -51,19 +53,20 @@ contentType="text/html; charset=utf-8"%>
             a:visited {color:brown;}
             a:hover {color:blue; text-decoration: underline;}
             .content-wrap {height:100%; width:100%;}
-            .container {width:500px; height:500px; position: absolute; top:100px; left:420px; background: white;}
+            .container {width:500px; height:600px; position: absolute; top:20px; left:420px; background: white;}
             .login-section {width:400px; margin:0 auto; padding:30px;}
-            .form-text {margin:30px 0;}
+            .form-text, .form-group {margin:30px 0;}
             .active {display: inline-block; width:195px; height:60px; text-align: center;
                  padding-top:30px; font-size:1.5rem; font-family: 楷体;}
             .active:hover {background: #c0c0c0;}
-            label {font-weight: bold; font-size: 1.5rempx; white-space: pre;}
+            label {font-weight: bold;white-space: pre;}
             input[type="text"], input[type="password"] {width:250px; height:40px; border-radius: 5px;}
             input[type="text"]:focus {background: skyblue;}
             input[type="password"]:focus {background:springgreen;}
             .form-btn {width:400px; text-align: center;}
             .btn {color:white; background: cornflowerblue; border-radius: 10px; width:200px; height:40px;}
             .btn:hover {background: darkcyan; cursor: pointer;}
+            .checkbox-inline {clear: black; font-weight: normal;}
         </style>
         <script>
             function check(){
@@ -113,6 +116,21 @@ contentType="text/html; charset=utf-8"%>
                                         name="login_username" value="" placeholder="确认密码"
                                         data-parsley-required-message="请确认您的密码"
                                         data-parsley-type="email" data-parsley-maxlength="128" required="required">
+                            </div>
+                            <div class="form-text mbl">
+                                <label class="control-label" for="contact">联系方式    </label>
+                                <input class="form-control input-lg" id="contact" type="text" 
+                                        name="contact" value="" placeholder="联系方式"
+                                        data-parsley-required-message="请舒服联系方式"
+                                        data-parsley-maxlength="128" required="required">
+                            </div>
+                            <div class="form-group mbl">
+                                <label class="control-labelrequired"> 用户类型  </label>
+                                <label class="checkbox-inline"><input type="radio" name="user_type" value="admin" data-parsley-multiple="type"
+                                            data-parsley-errors-container="#checkbox-errors"
+                                            data-parsley-required-message="请选择您的用户类型">管理员</label>
+                                <label class="checkbox-inline"><input type="radio" name="user_type" value="normal" data-parsley-multiple="type" required
+                                            >普通用户</label>
                             </div>
                             <div class="form-btn mbl" id="register_div">
                                 <button type="submit" class="btn">注册</button>
