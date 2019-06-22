@@ -1,20 +1,46 @@
-<!-- <%@ page language="java" import="java.util.*,java.sql.*"
+ <%@ page language="java" import="java.util.*,java.sql.*"
 contentType="text/html; charset=utf-8"%>
 <%
     //首先是判断注册或者登录信息是否正确，然后显示主页面
     request.setCharacterEncoding("utf-8");
+    String msg = "";
     //连接Mysql数据库
-    String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045"
-                        + "?autoReconnect=true&useUnicode=true"
-                        + "&characterEncoding=UTF-8"; 
-	String msg = "";
-    String submit = request.getParameter("sign_in");
-    String account = "";
-    String password = "";
-    Connection con=DriverManager.getConnection(connectString, 
-                        "user", "123");
+    if (request.getMethod().equalsIgnoreCase("post")){
+      try{
+        String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045"
+                            + "?autoReconnect=true&useUnicode=true"
+                            + "&characterEncoding=UTF-8"; 
+      
+        String submit = request.getParameter("sign_in");
+        String register_username = request.getParameter("register_username");
+        String password = request.getParameter("password");
+        Connection con=DriverManager.getConnection(connectString, 
+                            "user", "123");
         Statement stmt=con.createStatement();
-    %> -->
+        String CHECK_USER_EXIST_SQL = "select * from user where user_name='" + register_username + "'" ;
+
+       
+        ResultSet rs = stmt.executeQuery(CHECK_USER_EXIST_SQL);
+        out.print(register_username);
+        if(!rs.next()){
+          out.print("hhh");
+          String INSERT_USER_SQL = String.format("insert into user (user_name,password,user_type) values('%s','%s','normal_user')",register_username,password);
+          int insert_result = stmt.executeUpdate(INSERT_USER_SQL);
+          if(insert_result>0){
+            msg = "注册成功~";
+          }
+        }else {
+          msg = "用户名已存在，请更换用户名注册~";
+        }
+        
+        rs.close();
+        stmt.close();
+        con.close();
+      }catch(Exception e){
+        msg = e.getMessage();
+      }
+    }
+    %> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -66,7 +92,7 @@ contentType="text/html; charset=utf-8"%>
                     </div>
                     <div class="register-main">
                         <form id="register-form" class="form-vertical" method="post"
-                                action="register.jsp" data-parsley-validate="" onsubmit="return check()">
+                                action="register_16337045.jsp" data-parsley-validate="" onsubmit="return check()">
                             <div class="form-text mbl">
                                 <label class="control-label" for="register_username">    用户名    </label>
                                 <input class="form-control input-lg" id="register_username" type="text" 
@@ -91,6 +117,7 @@ contentType="text/html; charset=utf-8"%>
                             <div class="form-btn mbl" id="register_div">
                                 <button type="submit" class="btn">注册</button>
                             </div>
+                           <%=msg%>
                         </form>
                     </div>
                 </div>
