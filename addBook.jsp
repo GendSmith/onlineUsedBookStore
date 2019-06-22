@@ -58,7 +58,7 @@ if (request.getMethod().equalsIgnoreCase("post")){
             } //if
         } //for
     } //if
-    
+
     String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045"
               + "?autoReconnect=true&useUnicode=true"
               + "&characterEncoding=UTF-8"; 
@@ -75,7 +75,7 @@ if (request.getMethod().equalsIgnoreCase("post")){
       con.close();
     }catch(Exception e) {
       msg = e.getMessage();
-
+    }
 }%>
   <div class="container">
 	<h1>新增图书记录</h1>
