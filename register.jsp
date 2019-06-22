@@ -90,8 +90,8 @@ contentType="text/html; charset=utf-8"%>
             <div id="content-container" class="container">
                 <div class="login-section">
                     <div class="logon-tab clearfix">
-                        <a href="login.html" class="active" id="login-a">登录</a>
-                        <a href="register.html" class="active">注册</a>
+                        <a href="login_16337045.jsp" class="active" id="login-a">登录</a>
+                        <a href="register_16337045.jsp" class="active">注册</a>
                     </div>
                     <div class="register-main">
                         <form id="register-form" class="form-vertical" method="post"
@@ -133,7 +133,8 @@ contentType="text/html; charset=utf-8"%>
                                             >普通用户</label>
                             </div>
                             <div class="form-btn mbl" id="register_div">
-                                <button type="submit" class="btn">注册</button>
+                                <button type="submit" class="btn">注册</button><br><br>
+                            <a href="bookList_16337045.jsp"> 直接浏览二手书列表 </a>
                             </div>
                            <%=msg%>
                         </form>

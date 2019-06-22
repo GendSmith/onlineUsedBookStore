@@ -28,11 +28,16 @@
   form {
     margin-left:30%;
   }
+  a {
+    text-decoration:none
+  }
 
 </style>
 <body>
   <%  request.setCharacterEncoding("utf-8"); %>
   <div class="container">
+  <a href="login_16337045.jsp">登录 </a>
+  <a href="register_16337045.jsp">注册 </a>
 	  <h1>二手书本信息</h1>  
     	<form action="bookList_16337045.jsp" method="post" name="f">
 		    输入查询:<input id="query" name="query" type="text"
@@ -123,9 +128,7 @@
           <td><%=item.getPrice()%> </td>
           <td><img src= "<%=item.getImgUrl()%>" style="width:80px;height:80px"/> </td>
           <td>
-              待开发
-              <%-- <a href="updateStu_16337045.jsp?id=<%=item.getId()%>">修改 </a>
-              <a href="deleteStu_16337045.jsp?id=<%=item.getId()%>">删除</a>  --%>
+              <a href="bookShow_16337045.jsp?id=<%=item.getId()%>">查看详情 </a>
           </td>
           </tr>
     <%}

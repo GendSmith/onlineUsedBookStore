@@ -20,6 +20,7 @@ contentType="text/html; charset=utf-8"%>
        
         if(rs.next()){
           msg = "登录成功~";
+          response.sendRedirect("bookList_16337045.jsp");
         }else {
           msg = "用户名或者密码错误~";
         }
@@ -36,6 +37,7 @@ contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
 <html>
     <head>
+       
         <title>登录</title>
         <style>
             html, body {height:100%; width: 100%;}
@@ -65,8 +67,8 @@ contentType="text/html; charset=utf-8"%>
             <div id="content-container" class="container">
                 <div class="login-section">
                     <div class="logon-tab clearfix">
-                        <a href="login.html" class="active" id="login-a">登录</a>
-                        <a href="register.html" class="active">注册</a>
+                        <a href="login_16337045.jsp" class="active" id="login-a">登录</a>
+                        <a href="register_16337045.jsp" class="active">注册</a>
                     </div>
                     <div class="login-main">
                         <form id="login-form" class="form-vertical" method="post"
@@ -94,7 +96,8 @@ contentType="text/html; charset=utf-8"%>
                             <%-- <a href="reset.html">忘记密码</a> --%>
                             <%-- <span class="text-muted mhs">|</span> --%>
                             <span class="text-muted">没有账户</span>
-                            <a href="register.html">注册</a>
+                            <a href="register+16337045.jsp">注册</a><br><br>
+                            <a href="bookList_16337045.jsp"> 直接浏览二手书列表 </a>
                         </div>
                         <br><br><br>
                         <%=msg%>
