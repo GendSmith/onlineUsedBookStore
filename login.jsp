@@ -20,7 +20,13 @@ contentType="text/html; charset=utf-8"%>
        
         if(rs.next()){
           msg = "登录成功~";
+          session.setAttribute("user_name",login_username);
+          session.setAttribute("user_id",rs.getString("user_id"));
+          if(rs.getString("user_type").equals("admin")){
+            session.setAttribute("user_type","admin");
+          }
           response.sendRedirect("bookList_16337045.jsp");
+         
         }else {
           msg = "用户名或者密码错误~";
         }
@@ -37,7 +43,6 @@ contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-       
         <title>登录</title>
         <style>
             html, body {height:100%; width: 100%;}

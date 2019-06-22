@@ -21,6 +21,9 @@
 <body>
 <%
 String msg = "";
+if(session.getAttribute("user_name")==null){
+    response.sendRedirect("login_16337045.jsp");
+}
 if (request.getMethod().equalsIgnoreCase("post")){ 
    boolean isMultipart = ServletFileUpload.isMultipartContent(request);//是否用multipart提交的?
     String savePlace = "";
@@ -67,8 +70,8 @@ if (request.getMethod().equalsIgnoreCase("post")){
       Connection con=DriverManager.getConnection(connectString, 
                         "user", "123");
       Statement stmt=con.createStatement();
-      String fmt = "insert into books (book_name,price,img_url,description) values('%s','%s','%s','%s')";
-      String sql = String.format(fmt,book_name,price,img_url,description);
+      String fmt = "insert into books (book_name,price,img_url,description,user_id) values('%s','%s','%s','%s',%s)";
+      String sql = String.format(fmt,book_name,price,img_url,description,session.getAttribute("user_id"));
       int rs = stmt.executeUpdate(sql);
       if(rs>0){msg = "添加成功！";}
       stmt.close();
@@ -90,6 +93,7 @@ if (request.getMethod().equalsIgnoreCase("post")){
 		                     <br/><br/>
 		<input type="submit" name="sub" value="保存">
 		                     <br/><br/>
+    <a href="bookList_16337045.jsp"> 前往二手书列表 </a>
 	</form>
   <%=msg%>
 	<br/><br/>

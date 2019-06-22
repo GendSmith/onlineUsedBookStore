@@ -13,7 +13,7 @@ contentType="text/html; charset=utf-8"%>
     Connection con=DriverManager.getConnection(connectString, 
                         "user", "123");
     Statement stmt=con.createStatement();
-    String sql=String.format("select * from books where book_id = '%s'", book_id);
+    String sql=String.format("select * from books where book_id = %s", book_id);
     ResultSet rs=stmt.executeQuery(sql);
     if(rs.next()){
         book_name = rs.getString("book_name");
@@ -57,7 +57,7 @@ contentType="text/html; charset=utf-8"%>
             <div id="title" class="text"><%=book_name%></div>
             <div id="description" class="text"><%=description%></div>
             <div id="book_info" class="text">
-                <span id="price">价格:<%=price%></span>
+                <span id="price">价格:<%=price%>元</span>
             </div>
             <div id="user_info">
                 <span id="user_name">发布人: <%=user_name%>  </span>

@@ -36,12 +36,16 @@
 <body>
   <%  request.setCharacterEncoding("utf-8"); %>
   <div class="container">
+  <% if(session.getAttribute("user_name")==null) {%>
   <a href="login_16337045.jsp">登录 </a>
   <a href="register_16337045.jsp">注册 </a>
+  <% }else{ %>
+  用户昵称：<%=session.getAttribute("user_name")%>
+  <%}%>
 	  <h1>二手书本信息</h1>  
     	<form action="bookList_16337045.jsp" method="post" name="f">
 		    输入查询:<input id="query" name="query" type="text"
-         value=<%=request.getParameter("query")==null?"马原":request.getParameter("query")%>>		                     
+         value=<%=request.getParameter("query")==null?"":request.getParameter("query")%>>		                     
 		    <input type="submit" name="sub" value="查询">
 		    <br/><br/>
     	</form>
@@ -55,7 +59,7 @@
     </tr>  
     <% 	
      
-      String param = request.getParameter("query")==null?"马原":request.getParameter("query");
+      String param = request.getParameter("query")==null?"":request.getParameter("query");
      
       String msg ="";
       class BookInfo{
@@ -92,17 +96,13 @@
       }
       List<BookInfo> bookList = new ArrayList<BookInfo>() ;
       int length =0;
-      String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045"
-              + "?autoReconnect=true&useUnicode=true"
-              + "&characterEncoding=UTF-8"; 
+      String connectString = "jdbc:mysql://172.18.187.6:3306/books_16337045" + "?autoReconnect=true&useUnicode=true" + "&characterEncoding=UTF-8"; 
       try{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con=DriverManager.getConnection(connectString, 
-                      "user", "123");
+        Connection con=DriverManager.getConnection(connectString, "user", "123");
         Statement stmt=con.createStatement();
         String sql = "select * from books where book_name like '%" + param + "%' or  description like '%"+param+"%'" ;
         ResultSet rs=stmt.executeQuery(sql);
-
         while(rs.next()) {
               BookInfo tmp = new BookInfo();
               tmp.setBookName(rs.getString("book_name"));
@@ -128,7 +128,10 @@
           <td><%=item.getPrice()%> </td>
           <td><img src= "<%=item.getImgUrl()%>" style="width:80px;height:80px"/> </td>
           <td>
-              <a href="bookShow_16337045.jsp?id=<%=item.getId()%>">查看详情 </a>
+              <a href="bookShow_16337045.jsp?book_id=<%=item.getId()%>">查看详情 </a>
+              <% if(session.getAttribute("user_type")!=null && "admin".equals(((String)session.getAttribute("user_type")).trim())){%>
+              <a href="deleteBook_16337045.jsp?book_id=<%=item.getId()%>">删除</a>
+              <%}%>
           </td>
           </tr>
     <%}
@@ -136,7 +139,7 @@
     </table>
     <%=msg%>
   </div>
-  <a href="addBook_16337045.jsp">新增</a>
+  <a href=<%=session.getAttribute("user_name")==null?"login_16337045.jsp":"addBook_16337045.jsp"%>>新增</a>
 </body>
 
 </html>
